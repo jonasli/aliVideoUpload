@@ -1,0 +1,49 @@
+ <!--  IE需要es6-promise -->
+ <script src="../lib/es6-promise.min.js"></script>
+ <script src="../lib/aliyun-oss-sdk.min.js"></script>
+ <script src="../aliyun-vod-upload-sdk-1.3.0.min.js"></script>
+
+
+
+ <script>
+ var uploader = new AliyunUpload.Vod({
+     //分片大小默认1M，不能小于100K
+     partSize: 1048576,
+     //并行上传分片个数，默认5
+     parallel: 5,
+     //网络原因失败时，重新上传次数，默认为3
+     retryCount: 3,
+     //网络原因失败时，重新上传间隔时间，默认为2秒
+     retryDuration: 2,
+    // 开始上传
+    'onUploadstarted': function (uploadInfo) {
+      log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+      //上传方式1
+      // uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress);
+      //上传方式2
+      // uploader.setSTSToken(uploadInfo, accessKeyId, accessKeySecret,secretToken);
+    },
+    // 文件上传成功
+    'onUploadSucceed': function (uploadInfo) {
+      log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+    },
+    // 文件上传失败
+    'onUploadFailed': function (uploadInfo, code, message) {
+      log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
+    },
+    // 文件上传进度，单位：字节
+    'onUploadProgress': function (uploadInfo, totalSize, loadedPercent) {
+        log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(loadedPercent * 100) + "%");
+    },
+    // 上传凭证超时
+    'onUploadTokenExpired': function () {
+        console.log("onUploadTokenExpired");
+        //上传方式1  实现时，从新获取UploadAuth
+        // uploader.resumeUploadWithAuth(uploadAuth);
+        // 上传方式2 实现时，从新获取STS临时账号用于恢复上传
+        // uploader.resumeUploadWithSTSToken(accessKeyId, accessKeySecret, secretToken, expireTime);
+    }
+});
+ 
+ 
+ </script>

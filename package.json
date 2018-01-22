@@ -1,0 +1,21 @@
+{
+  "name": "videoupload",
+  "version": "1.0.0",
+  "description": "test aliyun video upload",
+  "main": "aliyun-upload-sdk-1.3.0.min.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "video"
+  ],
+  "author": "jonas",
+  "license": "MIT",
+  "dependencies": {
+    "@alicloud/pop-core": "^1.5.0",
+    "requirejs": "^2.3.5"
+  }
+}
